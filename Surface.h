@@ -295,8 +295,8 @@ class Surface// store all cells
         currentMeanRadius = getMeanRadiusOfLivingCells();
         if (currentMeanRadius > lastMeanRadius + 2) {
           lastMeanRadius = currentMeanRadius;
-                    saveToFileMeanRadiusOfLivingCellsNumOfLivingCells("MRNLC"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
-                    saveToFileSDMean("SD"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
+                    //saveToFileMeanRadiusOfLivingCellsNumOfLivingCells("MRNLC"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
+                    //saveToFileSDMean("SD"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
         }
       }
     }
