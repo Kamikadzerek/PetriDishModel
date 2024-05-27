@@ -1,0 +1,28 @@
+All files must be placed in one folder with data.
+
+To compile program run: 
+g++ -Ofast -ffast-math *.cpp *.h -o PetriDishModel
+
+It can be executed by:
+./PetriDishModel A B C
+where:
+A - thickness of cluster
+B - start id
+C - end id
+
+For example: ./PetriDishModel 5 0 4 will generate four files:
+DENSITY5.00Id0.csv
+DENSITY5.00Id1.csv
+DENSITY5.00Id2.csv
+DENSITY5.00Id3.csv
+
+By genJobs.py you can customizing and generate list of execiutions of PetriDishModel into
+jobs file.
+
+By run.sh you can executed command from jobs pararel(param N in the script)
+
+After execute run.sh you will have set of data.
+Make averege result for each cluster thickness can be done by average.py.
+
+And after that you can use density.py for generate densities.dat - final result which is
+use for generate plot.
