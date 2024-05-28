@@ -3,8 +3,8 @@
 const float NUMBEROFANGLES = 360;
 extern const int ITERATIONBYONE = 500;
 int main(int argc, char* argv[]) {
-  float maxRadius = atof(argv[2]);
-  for (int i = atoi(argv[3]); i < atoi(argv[4]); i++) {
+  float maxRadius = atof(argv[1])*2+10;
+  for (int i = atoi(argv[2]); i < atoi(argv[3]); i++) {
     Surface surface(i, NUMBEROFANGLES, atof(argv[1]), maxRadius);
     float radius = surface.getMeanRadiusOfLivingCells();
     while (radius <= maxRadius) {

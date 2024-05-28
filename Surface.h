@@ -324,8 +324,8 @@ class Surface// store all cells
     std::ofstream fout;
     std::string fullPath = fileName;
     fout.open(fullPath);
-    float R = getMeanRadiusOfLivingCells() + 100;
-    float step = 5;
+    float R = getMeanRadiusOfLivingCells() + 10;
+    float step = 1;
     for (float r = step; r <= R; r += step) {
       fout << std::pow(r / cellRadius, 2) << "\t" << getNumberOfCellsEnclosedByRadius(r) << "\n";
     }
