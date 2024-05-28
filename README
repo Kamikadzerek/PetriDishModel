@@ -4,17 +4,19 @@ To compile program run:
 g++ -Ofast -ffast-math *.cpp *.h -o PetriDishModel
 
 It can be executed by:
-./PetriDishModel A B C
+./PetriDishModel A B C D
 where:
 A - thickness of cluster
-B - start id
-C - end id
+B - radius of cluster
+C - start id
+D - end id
 
-For example: ./PetriDishModel 5 0 4 will generate four files:
+For example: ./PetriDishModel 5 50 0 4 will generate four files:
 DENSITY5.00Id0.csv
 DENSITY5.00Id1.csv
 DENSITY5.00Id2.csv
 DENSITY5.00Id3.csv
+each of radius 50.
 
 By genJobs.py you can customizing and generate list of execiutions of PetriDishModel into
 jobs file.
