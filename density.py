@@ -14,4 +14,3 @@ for file in natsorted(files):
     g.cmd('print '+file[7:11]+', a,a_err')
 g.cmd("set xtics 0.5")
 g.cmd("set grid")
-#g.cmd('plot "densities.dat" u 1:2 pt 5 ps 1.0 lc rgb "#000000" notitle, "densities.dat" u 1:2 with line pt 5 ps 1.0 lc rgb "#000000" notitle')

@@ -14,6 +14,7 @@ for group in file_groups.items():
     for file in group[1]:
         df = pd.read_csv(os.path.join(directory, file),sep="\t", header=None)
         df = df.drop_duplicates(subset=[1], keep='first')
+        df = df[:-2]
         dfs.append(df)
 
     dfResult = dfs[0]

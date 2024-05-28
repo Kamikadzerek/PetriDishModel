@@ -155,7 +155,6 @@ class Surface// store all cells
     float distY = cell1.getY() - cell2.getY();
     if (std::abs(distX) < 1) {
       if (std::abs(distZ) < 1) {
-        //        if (dstBtw2Pts(cell1, cell2) < 1) {
         if (pow(distX, 2) + pow(distY, 2) + pow(distZ, 2) < 1) {
           return true;
         }
@@ -285,18 +284,9 @@ class Surface// store all cells
               break;
             }
           }
-          // COMMON PART -------------------------------------------------
         }
         if (isConflicting) {
           deadCell(cell);
-        }
-      }
-      if (iterationCounter % densityOfMeasurements == 0) {
-        currentMeanRadius = getMeanRadiusOfLivingCells();
-        if (currentMeanRadius > lastMeanRadius + 2) {
-          lastMeanRadius = currentMeanRadius;
-                    //saveToFileMeanRadiusOfLivingCellsNumOfLivingCells("MRNLC"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
-                    //saveToFileSDMean("SD"+std::to_string(thickness).substr(0,4)+ "Id" + std::to_string(id) + ".csv");
         }
       }
     }
