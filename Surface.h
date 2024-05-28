@@ -331,34 +331,6 @@ class Surface// store all cells
     }
     fout.close();
   }
-  [[maybe_unused]] void saveToFileMeanRadiusOfLivingCellsNumOfLivingCells(const std::string &fileName) {
-    std::ofstream fout;
-    std::string fullPath = fileName;
-    fout.open(fullPath, std::ios_base::app);
-    fout << /*2 * */ getMeanRadiusOfLivingCells() / cellRadius << "\t" << aliveCellsCounter << "\n";// poprawka błąd w pracy USUNIETA
-    fout.close();
-  }
-  float getSD() {
-    float meanRadius = getMeanRadiusOfLivingCells();
-    const vector2d center = getCenterOfMassFromLiving();
-    std::vector<float> deviations;
-    for (const Cell *cell : aliveCells) {
-      deviations.push_back(pow(meanRadius - dstBtw2Pts(center, cell), 2));
-    }
-    float variance = 0;
-    for (float v : deviations) {
-      variance += v;
-    }
-    variance /= deviations.size();
-    return sqrt(variance) / cellRadius;
-  }
-  void saveToFileSDMean(const std::string &fileName) {
-    std::ofstream fout;
-    std::string fullPath = fileName;
-    fout.open(fullPath, std::ios_base::app);
-    fout << getMeanRadiusOfLivingCells() / cellRadius << "\t" << getSD() << "\n";
-    fout.close();
-  }
   [[maybe_unused]] void saveToFile(const std::string &fileName) {
     std::ofstream fout;
     std::string fullPath = fileName;
