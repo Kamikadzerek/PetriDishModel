@@ -18,8 +18,8 @@ class Cell {
     z = cell.getZ();
     return *this;
   }
-  [[nodiscard]] bool getStatus() const { return status; }
-  [[nodiscard]] float getX() const { return x; }
-  [[nodiscard]] float getY() const { return y; }
-  [[nodiscard]] float getZ() const { return z; }
+  bool getStatus() const { return status; }
+  float getX() const { return x; }
+  float getY() const { return y; }
+  float getZ() const { return z; }
 };

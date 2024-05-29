@@ -7,74 +7,6 @@
 extern const int ITERATIONBYONE;
 class Surface// store all cells
 {
-  template <typename _IntType, typename _UniformRandomBitGenerator>
-  std::pair<_IntType, _IntType>
-  __gen_two_uniform_ints(_IntType __b0, _IntType __b1,
-                         _UniformRandomBitGenerator &&__g) {
-    _IntType __x = std::uniform_int_distribution<_IntType>{0, (__b0 * __b1) - 1}(__g);
-    return std::make_pair(__x / __b1, __x % __b1);
-  }
-  template <typename _RandomAccessIterator,
-            typename _UniformRandomNumberGenerator>
-  void
-  shuffle(_RandomAccessIterator __first, _RandomAccessIterator __last,
-          _UniformRandomNumberGenerator &&__g) {
-    // concept requirements
-    __glibcxx_function_requires(_Mutable_RandomAccessIteratorConcept<
-                                _RandomAccessIterator>)
-        __glibcxx_requires_valid_range(__first, __last);
-    if (__first == __last)
-      return;
-    typedef typename std::iterator_traits<_RandomAccessIterator>::difference_type
-        _DistanceType;
-    typedef typename std::make_unsigned<_DistanceType>::type __ud_type;
-    typedef typename std::uniform_int_distribution<__ud_type> __distr_type;
-    typedef typename __distr_type::param_type __p_type;
-    typedef typename std::remove_reference<_UniformRandomNumberGenerator>::type
-        _Gen;
-    typedef typename std::common_type<typename _Gen::result_type, __ud_type>::type
-        __uc_type;
-    const __uc_type __urngrange = __g.max() - __g.min();
-    const __uc_type __urange = __uc_type(__last - __first);
-    if (__urngrange / __urange >= __urange)
-    // I.e. (__urngrange >= __urange * __urange) but without wrap issues.
-    {
-      _RandomAccessIterator __i = __first + 1;
-      // Since we know the range isn't empty, an even number of elements
-      // means an uneven number of elements /to swap/, in which case we
-      // do the first one up front:
-      if ((__urange % 2) == 0) {
-        __distr_type __d{0, 1};
-        std::iter_swap(__i++, __first + __d(__g));
-      }
-      // Now we know that __last - __i is even, so we do the rest in pairs,
-      // using a single distribution invocation to produce swap positions
-      // for two successive elements at a time:
-      while (__i != __last) {
-        const __uc_type __swap_range = __uc_type(__i - __first) + 1;
-        const std::pair<__uc_type, __uc_type> __pospos =
-            __gen_two_uniform_ints(__swap_range, __swap_range + 1, __g);
-        std::iter_swap(__i++, __first + __pospos.first);
-        std::iter_swap(__i++, __first + __pospos.second);
-      }
-      return;
-    }
-    __distr_type __d;
-    for (_RandomAccessIterator __i = __first + 1; __i != __last; ++__i)
-      std::iter_swap(__i, __first + __d(__g, __p_type(0, __i - __first)));
-  }
-  template <typename _InputIterator, typename _Tp>
-  _GLIBCXX20_CONSTEXPR inline _InputIterator
-  find(_InputIterator __first, _InputIterator __last,
-       const _Tp &__val) {
-    // concept requirements
-    __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
-        __glibcxx_function_requires(_EqualOpConcept<
-                                    typename iterator_traits<_InputIterator>::value_type, _Tp>)
-            __glibcxx_requires_valid_range(__first, __last);
-    return std::__find_if(__first, __last,
-                          __gnu_cxx::__ops::__iter_equals_val(__val));
-  }
 
   private:
   std::vector<std::vector<int>> conflictQueue = {
@@ -148,7 +80,7 @@ class Surface// store all cells
   std::random_device rd;
   std::mt19937 gen;
   std::uniform_real_distribution<float> dis;
-  [[nodiscard]] bool circleIsOverCircle(const Cell &cell1, const Cell cell2) const {
+   bool circleIsOverCircle(const Cell &cell1, const Cell cell2) const {
     float distZ = cell1.getZ() - cell2.getZ();
     float distX = cell1.getX() - cell2.getX();
     float distY = cell1.getY() - cell2.getY();
@@ -203,13 +135,23 @@ class Surface// store all cells
     tree[std::floor(x) + halfOfTreeSize][std::floor(y) + halfOfTreeSize][std::floor(z) + halfOfTreeSizeZ].push_back(&cells.back());
   }
   void deadCell(Cell *c) {
+
     c->death();
-    auto it = find(aliveCells.begin(), aliveCells.end(), c);
-    if (it != aliveCells.end()) {
-      std::swap(*it, aliveCells.back());
-      aliveCells.pop_back();
-    }
-    aliveCellsCounter--;
+      for(auto it = aliveCells.begin(); it!=aliveCells.end();it++){
+      if((*it)->getX()==c->getX()&&(*it)->getY()==c->getY()){
+        std::swap(*it, aliveCells.back());
+        aliveCells.pop_back();
+        aliveCellsCounter--;
+        break;
+        
+      }  
+      }
+//auto it = find(aliveCells.begin(), aliveCells.end(), c);
+//if (it != aliveCells.end()) {
+//std::swap(*it, aliveCells.back());
+//aliveCells.pop_back();
+//}
+//aliveCellsCounter--;
   }
   bool cellIsConflicting(const Cell cell) {
     int x = std::floor(cell.getX()) + halfOfTreeSize;
@@ -244,7 +186,7 @@ class Surface// store all cells
     }
     return vector2d(sumX / counter, sumY / counter);
   }
-  [[maybe_unused]] [[nodiscard]] int getAliveCellsCounter() const { return aliveCellsCounter; }
+    int getAliveCellsCounter() const { return aliveCellsCounter; }
   void update(int numberOfIteration) {
     float halfOfThicknessTrue = halfOfThickness - 0.5;
     float x = 0;
@@ -328,7 +270,7 @@ class Surface// store all cells
     }
     return counter;
   }
-  [[maybe_unused]] void saveToFileAllNumberOfCellsEnclosedByRadius(const std::string &fileName) {
+   void saveToFileAllNumberOfCellsEnclosedByRadius(const std::string &fileName) {
     std::ofstream fout;
     std::string fullPath = fileName;
     fout.open(fullPath);
@@ -339,7 +281,7 @@ class Surface// store all cells
     }
     fout.close();
   }
-  [[maybe_unused]] void saveToFile(const std::string &fileName) {
+   void saveToFile(const std::string &fileName) {
     std::ofstream fout;
     std::string fullPath = fileName;
     fout.open(fullPath);
@@ -354,7 +296,7 @@ class Surface// store all cells
     }
     fout.close();
   }
-    [[maybe_unused]] void saveToFileMeanRadiusOfLivingCellsNumOfLivingCells(const std::string &fileName) {
+     void saveToFileMeanRadiusOfLivingCellsNumOfLivingCells(const std::string &fileName) {
     std::ofstream fout;
     std::string fullPath = fileName;
     fout.open(fullPath, std::ios_base::app);
