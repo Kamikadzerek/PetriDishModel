@@ -10,13 +10,15 @@ A - thickness of cluster
 B - start id
 C - end id
 
-For example: ./PetriDishModel 5 0 4 will generate four files:
+For example: ./PetriDishModel 5 0 2 will generate eight files:
 DENSITY5.00Id0.csv
 DENSITY5.00Id1.csv
-DENSITY5.00Id2.csv
-DENSITY5.00Id3.csv
+SD5.00Id1.csv
+SD5.00Id0.csv
+MRNLC5.00Id1.csv
+MRNLC5.00Id0.csv
 
 Make averege result for each cluster thickness can be done by average.py.
 
-And after that you can use density.py for generate densities.dat - final result which is
+And after that you can use finalResults.py for generate densities.dat - final result which is
 use for generate plot.
